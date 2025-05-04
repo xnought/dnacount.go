@@ -11,8 +11,11 @@ go run main.go
 which counts the frequencies of the base pairs to result in
 
 ```txt
-G 0.191247
-C 0.174172
-T 0.305970
-A 0.328611
+Human papillomavirus genome
+Total length 8006
+G 19.12%
+C 17.42%
+T 30.60%
+A 32.86%
+GC bias of 36.54%
 ```

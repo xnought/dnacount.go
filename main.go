@@ -80,10 +80,8 @@ func main() {
 	}
 
 	regions := dna_regions(data)
-	fmt.Println(regions)
-
-	// out := normalize_frequencies(count_frequencies(data))
-	// for k, v := range out {
-	// 	fmt.Printf("'%c'=%f\n", k, v)
-	// }
+	for _, r := range regions {
+		freqs := count_frequencies(data[r.start:r.end])
+		fmt.Println(freqs)
+	}
 }

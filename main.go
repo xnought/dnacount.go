@@ -34,13 +34,56 @@ func count_frequencies(data []byte) map[byte]uint64 {
 	return char_count
 }
 
+type region struct {
+	start int
+	end   int
+}
+
+func skip_fasta_header(iptr *int, data []byte) {
+	if data[*iptr] == '>' {
+		// keep going with i until I hit a new line
+		for {
+			(*iptr)++
+			if (*iptr) >= len(data) || data[*iptr] == '\n' {
+				break
+			}
+		}
+	}
+}
+
+func dna_regions(data []byte) []region {
+	idxs := []region{}
+
+	i := 0
+	for i < len(data) {
+		skip_fasta_header(&i, data)
+		// read the dna base pairs, stop once I hit > again
+		r := region{start: i - 1, end: -1}
+		for {
+			if i >= len(data) || data[i] == '>' {
+				break
+			}
+			i++
+		}
+		r.end = i - 1
+
+		idxs = append(idxs, r)
+	}
+
+	return idxs
+}
+
 func main() {
 	data, err := os.ReadFile("./data/GCF_000863945.3_ViralProj15505_genomic.fna")
 	if err != nil {
 		panic(err)
 	}
-	out := normalize_frequencies(count_frequencies(data))
-	for k, v := range out {
-		fmt.Printf("'%c'=%f\n", k, v)
-	}
+
+	regions := dna_regions(data)
+	fmt.Println(regions)
+
+	// out := normalize_frequencies(count_frequencies(data))
+	// for k, v := range out {
+	// 	fmt.Printf("'%c'=%f\n", k, v)
+	// }
 }

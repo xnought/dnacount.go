@@ -79,9 +79,22 @@ func main() {
 		panic(err)
 	}
 
-	regions := dna_regions(data)
-	for _, r := range regions {
-		freqs := count_frequencies(data[r.start:r.end])
-		fmt.Println(freqs)
+	// count up frequencies for each dna region
+	base_pair_freqs := map[byte]uint64{'A': 0, 'C': 0, 'T': 0, 'G': 0}
+	for _, region_edges := range dna_regions(data) {
+		region := data[region_edges.start:region_edges.end]
+		freqs := count_frequencies(region)
+		for k := range base_pair_freqs {
+			value, found := freqs[k]
+			if found {
+				base_pair_freqs[k] += value
+			}
+		}
 	}
+
+	normalized_base_pair_freqs := normalize_frequencies(base_pair_freqs)
+	fmt.Printf("%c %f\n", 'G', normalized_base_pair_freqs['G'])
+	fmt.Printf("%c %f\n", 'C', normalized_base_pair_freqs['C'])
+	fmt.Printf("%c %f\n", 'T', normalized_base_pair_freqs['T'])
+	fmt.Printf("%c %f\n", 'A', normalized_base_pair_freqs['A'])
 }

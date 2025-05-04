@@ -21,14 +21,26 @@ func normalize_frequencies(freqs map[byte]uint64) map[byte]float64 {
 	return normalized
 }
 
-func count_frequencies(data []byte) map[byte]uint64 {
+func uppercase_byte(a byte) byte {
+	if a >= 'a' && a <= 'z' {
+		return a - ('a' - 'A')
+	}
+	return a
+}
+
+func count_frequencies(data []byte, all_upper bool) map[byte]uint64 {
 	char_count := map[byte]uint64{} // char -> count
 	for _, d := range data {
-		_, key_exists := char_count[d]
+		key := d
+		if all_upper {
+			key = uppercase_byte(d)
+		}
+
+		_, key_exists := char_count[key]
 		if key_exists {
-			char_count[d]++
+			char_count[key]++
 		} else {
-			char_count[d] = 1
+			char_count[key] = 1
 		}
 	}
 	return char_count
@@ -78,20 +90,23 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	fmt.Println("Loaded data")
 
 	// count up frequencies for each dna region
 	base_pair_freqs := map[byte]uint64{'A': 0, 'C': 0, 'T': 0, 'G': 0}
 	total_len := 0
-	for _, region_edges := range dna_regions(data) {
+	regions := dna_regions(data)
+	for i, region_edges := range regions {
 		region := data[region_edges.start:region_edges.end]
 		total_len += region_edges.end - region_edges.start
-		freqs := count_frequencies(region)
+		freqs := count_frequencies(region, true)
 		for k := range base_pair_freqs {
 			value, found := freqs[k]
 			if found {
 				base_pair_freqs[k] += value
 			}
 		}
+		fmt.Printf("Computed Region: %d/%d\n", i+1, len(regions))
 	}
 
 	result := normalize_frequencies(base_pair_freqs)

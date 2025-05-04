@@ -2,7 +2,7 @@
 
 A quick script in Go to count the base pair frequencies in the Human papillomavirus genome. ([click here to see the file contents](data/GCF_000863945.3_ViralProj15505_genomic.fna))
 
-https://www.ncbi.nlm.nih.gov/datasets/taxonomy/333760/
+Downloaded from https://www.ncbi.nlm.nih.gov/datasets/taxonomy/333760/ all credit to them
 
 ```bash
 go run main.go

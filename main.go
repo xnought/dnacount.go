@@ -24,5 +24,7 @@ func main() {
 		panic(err)
 	}
 	out := count_frequencies(data)
-	fmt.Println(out)
+	for k, v in range out {
+		fmt.Printf("%c=%d\n", k, v);
+	}
 }

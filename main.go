@@ -35,7 +35,7 @@ func count_frequencies(data []byte) map[byte]uint64 {
 }
 
 func main() {
-	data, err := os.ReadFile("main.go")
+	data, err := os.ReadFile("./data/GCF_000863945.3_ViralProj15505_genomic.fna")
 	if err != nil {
 		panic(err)
 	}

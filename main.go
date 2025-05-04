@@ -92,9 +92,10 @@ func main() {
 		}
 	}
 
-	normalized_base_pair_freqs := normalize_frequencies(base_pair_freqs)
-	fmt.Printf("%c %f\n", 'G', normalized_base_pair_freqs['G'])
-	fmt.Printf("%c %f\n", 'C', normalized_base_pair_freqs['C'])
-	fmt.Printf("%c %f\n", 'T', normalized_base_pair_freqs['T'])
-	fmt.Printf("%c %f\n", 'A', normalized_base_pair_freqs['A'])
+	result := normalize_frequencies(base_pair_freqs)
+	fmt.Printf("%c %f%%\n", 'G', result['G']*100)
+	fmt.Printf("%c %f%%\n", 'C', result['C']*100)
+	fmt.Printf("%c %f%%\n", 'T', result['T']*100)
+	fmt.Printf("%c %f%%\n", 'A', result['A']*100)
+	fmt.Printf("GC bias of %f\n", result['G']+result['C'])
 }

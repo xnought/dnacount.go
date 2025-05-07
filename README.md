@@ -1,17 +1,18 @@
 # test-go
 
-A quick script in Go to count the base pair frequencies in the Human papillomavirus genome. ([click here to see the file contents](data/GCF_000863945.3_ViralProj15505_genomic.fna))
+A quick script in Go to count the base pair frequencies in genomes.
 
-Downloaded from https://www.ncbi.nlm.nih.gov/datasets/taxonomy/333760/ all credit to them
+
+**Build**
 
 ```bash
-go run main.go FILENAME_HERE
+go build dnacount
 ```
 
-For example
+**Execute**
 
 ```bash
-go run main.go data/repeat_GCF_000863945.3_ViralProj15505_genomic.fna
+./dnacount data/repeat_GCF_000863945.3_ViralProj15505_genomic.fna
 ```
 
 returns
@@ -29,12 +30,16 @@ GC bias of 36.54%
 
 **Entire Human Genome**
 
-```bash
-bash download.sh  # downloads files to data/human_genome/
-```
+Download reference human genome https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000001405.40/  
 
 ```bash
-go run main.go data/human_genome/ncbi_dataset/data/GCF_000001405.40/GCF_000001405.40_GRCh38.p14_genomic.fna
+wget -O human_genome.zip https://api.ncbi.nlm.nih.gov/datasets/v2/genome/accession/GCF_000001405.40/download?include_annotation_type=GENOME_FASTA && unzip human_genome.zip -d data/human_genome && rm -fr human_genome.zip
+```
+
+execute 
+
+```bash
+./dnacount data/human_genome/ncbi_dataset/data/GCF_000001405.40/GCF_000001405.40_GRCh38.p14_genomic.fna
 ```
 
 returns 

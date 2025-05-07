@@ -28,8 +28,7 @@ func uppercase_byte(a byte) byte {
 	return a
 }
 
-func count_frequencies(dataPtr *[]byte, all_upper bool) map[byte]uint64 {
-	data := *dataPtr
+func count_frequencies(data []byte, all_upper bool) map[byte]uint64 {
 	char_count := map[byte]uint64{} // char -> count
 	for _, d := range data {
 		key := d
@@ -52,8 +51,7 @@ type region struct {
 	end   int
 }
 
-func skip_fasta_header(iptr *int, dataPtr *[]byte) {
-	data := *dataPtr
+func skip_fasta_header(iptr *int, data []byte) {
 	if data[*iptr] == '>' {
 		// keep going with i until I hit a new line
 		for {
@@ -65,13 +63,12 @@ func skip_fasta_header(iptr *int, dataPtr *[]byte) {
 	}
 }
 
-func dna_regions(dataPtr *[]byte) []region {
+func dna_regions(data []byte) []region {
 	idxs := []region{}
-	data := *dataPtr
 
 	i := 0
 	for i < len(data) {
-		skip_fasta_header(&i, dataPtr)
+		skip_fasta_header(&i, data)
 		// read the dna base pairs, stop once I hit > again
 		r := region{start: i - 1, end: -1}
 		for {
@@ -98,11 +95,11 @@ func dna_regions(dataPtr *[]byte) []region {
 // 	// count up frequencies for each dna region
 // 	base_pair_freqs := map[byte]uint64{'A': 0, 'C': 0, 'T': 0, 'G': 0}
 // 	total_len := 0
-// 	regions := dna_regions(&data)
+// 	regions := dna_regions(data)
 // 	for i, region_edges := range regions {
 // 		region := data[region_edges.start:region_edges.end]
 // 		total_len += region_edges.end - region_edges.start
-// 		freqs := count_frequencies(&region, true)
+// 		freqs := count_frequencies(region, true)
 // 		fmt.Printf("Computed %d/%d\n", i+1, len(regions))
 // 		for k := range base_pair_freqs {
 // 			value, found := freqs[k]
@@ -121,8 +118,8 @@ func dna_regions(dataPtr *[]byte) []region {
 // 	fmt.Printf("GC bias of %.2f%%\n", (result['G']+result['C'])*100)
 // }
 
-func parallel_count_frequencies(dataPtr *[]byte, ch chan map[byte]uint64) {
-	ch <- count_frequencies(dataPtr, true)
+func parallel_count_frequencies(data []byte, ch chan map[byte]uint64) {
+	ch <- count_frequencies(data, true)
 }
 
 func main() {
@@ -134,12 +131,12 @@ func main() {
 
 	// count up frequencies for each dna region (store result in channel)
 	total_len := 0
-	regions := dna_regions(&data)
+	regions := dna_regions(data)
 	ch := make(chan map[byte]uint64, len(regions))
 	for _, region_edges := range regions {
 		region := data[region_edges.start:region_edges.end]
 		total_len += region_edges.end - region_edges.start
-		go parallel_count_frequencies(&region, ch)
+		go parallel_count_frequencies(region, ch)
 	}
 
 	// gather computed frequencies into one map

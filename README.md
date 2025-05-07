@@ -2,6 +2,7 @@
 
 A quick script in Go to count the base pair frequencies in genomes w/ parallelization across named FASTA labels/regions. With `dnacount.go`, I computed that the human genome has a GC bias of 41%. See results below (bottom of page).
 
+Only dependency is https://github.com/schollz/progressbar to show a progress bar for very long sequences. 
 
 **Build**
 

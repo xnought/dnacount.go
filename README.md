@@ -1,6 +1,6 @@
 # test-go
 
-A quick script in Go to count the base pair frequencies in genomes.
+A quick script in Go to count the base pair frequencies in genomes. With `dnacount.go` I computed that the human genome has a GC bias of 41%. See results below (bottom of page).
 
 
 **Build**

@@ -7,7 +7,7 @@ Only dependency is https://github.com/schollz/progressbar to show a progress bar
 **Build**
 
 ```bash
-go build dnacount
+go build
 ```
 
 **Execute**
@@ -40,18 +40,19 @@ wget -O human_genome.zip https://api.ncbi.nlm.nih.gov/datasets/v2/genome/accessi
 execute 
 
 ```bash
-./dnacount data/human_genome/ncbi_dataset/data/GCF_000001405.40/GCF_000001405.40_GRCh38.p14_genomic.fna
+time ./dnacount data/human_genome/ncbi_dataset/data/GCF_000001405.40/GCF_000001405.40_GRCh38.p14_genomic.fna
 ```
 
 returns 
 
 ```txt
 Loaded 'data/human_genome/ncbi_dataset/data/GCF_000001405.40/GCF_000001405.40_GRCh38.p14_genomic.fna' into RAM
- 100% |████████████████████████████████████████| [26s:0s]            
+ 100% |████████████████████████████████████████| [32s:0s]            
 Total length 3339662079
 G 20.57%
 C 20.48%
 T 29.52%
 A 29.43%
 GC bias of 41.05%
+./dnacount   291.64s user 3.66s system 733% cpu 40.242 total
 ```

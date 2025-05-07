@@ -86,7 +86,7 @@ func dna_regions(data []byte) []region {
 }
 
 func main() {
-	data, err := os.ReadFile("./data/GCF_000863945.3_ViralProj15505_genomic.fna")
+	data, err := os.ReadFile("./data/repeat_GCF_000863945.3_ViralProj15505_genomic.fna")
 	if err != nil {
 		panic(err)
 	}
@@ -110,7 +110,6 @@ func main() {
 	}
 
 	result := normalize_frequencies(base_pair_freqs)
-	fmt.Println("Human papillomavirus genome")
 	fmt.Printf("Total length %d\n", total_len)
 	fmt.Printf("%c %.2f%%\n", 'G', result['G']*100)
 	fmt.Printf("%c %.2f%%\n", 'C', result['C']*100)
